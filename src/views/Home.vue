@@ -28,6 +28,29 @@
         <router-link to="/Echarts">Echarts</router-link>
       </li>
     </ul>
+    <h3>测评结果</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>JS 库</th>
+          <th>编码难度</th>
+          <th>Flowchart 功能</th>
+          <th>可拓展性</th>
+          <th>综合评价</th>
+          <th>渲染速度</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>G6</td>
+          <td>低</td>
+        </tr>
+        <tr>
+          <td>D3(d3-force)</td>
+          <td>高</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -54,5 +77,9 @@ li {
 }
 a {
   color: #42b983;
+}
+table {
+  margin: auto;
+  margin-top: 15px;
 }
 </style>
