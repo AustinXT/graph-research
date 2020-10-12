@@ -38,12 +38,12 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## 网络图 JS 库汇总
 
-- Sigma js
+- G6
 - d3（d3-force）
+- Sigma js
 - visjs
 - Cytoscapejs
 - cola.js
-- G6
 - Echarts
 
 
