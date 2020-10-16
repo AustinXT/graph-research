@@ -4,30 +4,6 @@
     <p>
       说明
     </p>
-    <h3>Demos 展示</h3>
-    <ul>
-      <li>
-        <router-link to="/G6">G6</router-link>
-      </li>
-      <li>
-        <router-link to="/D3">D3(d3-force)</router-link>
-      </li>
-      <li>
-        <router-link to="/Sigmajs">Sigmajs</router-link>
-      </li>
-      <li>
-        <router-link to="/Visjs">Visjs</router-link>
-      </li>
-      <li>
-        <router-link to="/Cytoscapejs">Cytoscapejs</router-link>
-      </li>
-      <li>
-        <router-link to="/Colajs">Colajs</router-link>
-      </li>
-      <li>
-        <router-link to="/Echarts">Echarts</router-link>
-      </li>
-    </ul>
     <h3>测评结果</h3>
     <table>
       <thead>
