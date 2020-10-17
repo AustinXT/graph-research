@@ -22,6 +22,8 @@ export default {
         y: node.y / 5 - 360,
         size: node.nodeSize / 5,
         name: node.productName,
+        community: node.productCommunity,
+        leamerCategory: node.leamerCategory,
         style: {
           fill: node.nodeColor,
           opacity: 0.6,
@@ -60,9 +62,8 @@ export default {
             {
               type: 'tooltip',
               formatText: function formatText(model) {
-                return model.name;
+                return (`产品名称：${model.name}<br/>产品类型：${model.community}<br/>Leamer分类：${model.leamerCategory}`);
               },
-              offset: 30,
             },
             {
               type: 'edge-tooltip',
@@ -75,7 +76,6 @@ export default {
                     edge.getTarget().getModel().name}`
                 );
               },
-              offset: 30,
             },
           ],
         },
@@ -128,21 +128,6 @@ export default {
   },
   methods: {
     mountGraph() {
-      // const tooltip = new G6.Tooltip({
-      //   offsetX: 10,
-      //   offsetY: 20,
-      //   getContent(e) {
-      //     const outDiv = document.createElement('div');
-      //     outDiv.style.width = '180px';
-      //     outDiv.innerHTML = `
-      // <h4>自定义tooltip</h4>
-      // <ul>
-      //   <li>Label: ${e.item.getModel().name || e.item.getModel().id}</li>
-      // </ul>`;
-      //     return outDiv;
-      //   },
-      //   itemTypes: ['node'],
-      // });
       this.graph = new G6.Graph({ ...this.config, plugins: [] });
       // 读取数据
       this.graph.read({
@@ -198,19 +183,23 @@ export default {
 
 <style lang="scss" scoped>
 .graph {
+  position: relative;
   background-color: #f9f9f9;
   width: 1200px;
   height: 1000px;
   overflow: scroll;
   margin: auto;
 }
+</style>
+<style lang="scss">
 .g6-tooltip {
-  border: 1px solid #d2d2d2;
+  border: 1px solid #e2e2e2;
   border-radius: 4px;
   font-size: 12px;
-  color: #545454;
+  color: #000;
   background-color: rgba(255, 255, 255, 0.9);
   padding: 10px 8px;
   box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+  text-align: left;
 }
 </style>

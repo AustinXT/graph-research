@@ -2,7 +2,7 @@
   <div>
     <h1>产业森林</h1>
     <p>
-      说明: 产业森林数据来源于<a href="[Michele Coscia | The Product Space](http://www.michelecoscia.com/?page_id=223)">MIT-Harvard collaboration</a>.
+      说明: <a href="https://en.wikipedia.org/wiki/The_Product_Space">产业森林</a>数据来源于<a href="http://www.michelecoscia.com/?page_id=223">Michele Coscia | The Product Space by MIT-Harvard collaboration</a>.
     </p>
     <h3>Demos 展示</h3>
     <ul>
