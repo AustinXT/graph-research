@@ -2,91 +2,123 @@
   <div>
     <h1>G6</h1>
     <div id="mountNode"
-      v-if="graph"></div>
+      class="graph"></div>
   </div>
 </template>
 
 <script>
 import G6 from '@antv/g6';
+import nodes from './nodes';
+import edges from './edges';
 
 export default {
   name: 'G6',
   data() {
     return {
       graph: {},
-      nodes: [
-        { id: 'node0', size: 50 },
-        { id: 'node1', size: 30 },
-        { id: 'node2', size: 30 },
-        { id: 'node3', size: 30 },
-        { id: 'node4', size: 30, isLeaf: true },
-        { id: 'node5', size: 30, isLeaf: true },
-        { id: 'node6', size: 15, isLeaf: true },
-        { id: 'node7', size: 15, isLeaf: true },
-        { id: 'node8', size: 15, isLeaf: true },
-        { id: 'node9', size: 15, isLeaf: true },
-        { id: 'node10', size: 15, isLeaf: true },
-        { id: 'node11', size: 15, isLeaf: true },
-        { id: 'node12', size: 15, isLeaf: true },
-        { id: 'node13', size: 15, isLeaf: true },
-        { id: 'node14', size: 15, isLeaf: true },
-        { id: 'node15', size: 15, isLeaf: true },
-        { id: 'node16', size: 15, isLeaf: true },
-      ],
-      edges: [
-        { source: 'node0', target: 'node1' },
-        { source: 'node0', target: 'node2' },
-        { source: 'node0', target: 'node3' },
-        { source: 'node0', target: 'node4' },
-        { source: 'node0', target: 'node5' },
-        { source: 'node1', target: 'node6' },
-        { source: 'node1', target: 'node7' },
-        { source: 'node2', target: 'node8' },
-        { source: 'node2', target: 'node9' },
-        { source: 'node2', target: 'node10' },
-        { source: 'node2', target: 'node11' },
-        { source: 'node2', target: 'node12' },
-        { source: 'node2', target: 'node13' },
-        { source: 'node3', target: 'node14' },
-        { source: 'node3', target: 'node15' },
-        { source: 'node3', target: 'node16' },
-      ],
+      nodes: nodes.map((node) => ({
+        id: node.productId,
+        x: node.x / 5 + 200,
+        y: node.y / 5 - 360,
+        size: node.nodeSize / 5,
+        name: node.productName,
+        style: {
+          fill: node.nodeColor,
+          opacity: 0.6,
+          cursor: 'pointer',
+        },
+      })),
+      edges: edges.map((edge) => ({
+        source: edge.sProductId,
+        target: edge.tProductId,
+        style: {
+          stroke: edge.linkColor,
+          opacity: 0.4,
+          cursor: 'pointer',
+          lineWidth: edge.linkWidth / 4,
+        },
+      })),
       config: {
         container: 'mountNode', // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
-        width: 800, // Number，必须，图的宽度
-        height: 500, // Number，必须，图的高度
+        width: 1200, // Number，必须，图的宽度
+        height: 1000, // Number，必须，图的高度
         layout: {
-          type: 'force',
-          preventOverlap: true,
-          linkDistance: (d) => {
-            if (d.source.id === 'node0') {
-              return 100;
-            }
-            return 30;
-          },
-          nodeStrength: (d) => {
-            if (d.isLeaf) {
-              return -50;
-            }
-            return -10;
-          },
-          edgeStrength: (d) => {
-            if (d.source.id === 'node1' || d.source.id === 'node2' || d.source.id === 'node3') {
-              return 0.7;
-            }
-            return 0.1;
-          },
+          // type: 'force',
+          // preventOverlap: true,
+        },
+        modes: {
+          default: [
+            {
+              type: 'drag-canvas',
+              enableOptimize: true,
+            },
+            'zoom-canvas',
+            {
+              type: 'activate-relations',
+              trigger: 'click',
+            },
+            {
+              type: 'tooltip',
+              formatText: function formatText(model) {
+                return model.name;
+              },
+              offset: 30,
+            },
+            {
+              type: 'edge-tooltip',
+              formatText: function formatText(model, e) {
+                const edge = e.item;
+                return (
+                  `来源：${
+                    edge.getSource().getModel().name
+                  }<br/>去向：${
+                    edge.getTarget().getModel().name}`
+                );
+              },
+              offset: 30,
+            },
+          ],
         },
         defaultNode: {
           color: '#5B8FF9',
           style: {
-            lineWidth: 2,
             fill: '#C6E5FF',
           },
         },
         defaultEdge: {
-          size: 1,
+          size: 0.1,
           color: '#e2e2e2',
+        },
+        nodeStateStyles: {
+          hover: {
+            opacity: 1,
+            stroke: '#d2d2d2',
+            lineWidth: 2,
+          },
+          click: {
+            stroke: '#f00',
+            lineWidth: 2,
+          },
+          active: {
+            opacity: 1,
+          },
+          inactive: {
+            opacity: 0.2,
+          },
+        },
+        edgeStateStyles: {
+          hover: {
+            opacity: 1,
+            stroke: '#d2d2d2',
+            lineWidth: 2,
+          },
+          click: {
+            stroke: '#f00',
+            lineWidth: 2,
+          },
+          active: {
+            stroke: '#999',
+          },
         },
       },
     };
@@ -96,11 +128,52 @@ export default {
   },
   methods: {
     mountGraph() {
-      this.graph = new G6.Graph(this.config);
+      // const tooltip = new G6.Tooltip({
+      //   offsetX: 10,
+      //   offsetY: 20,
+      //   getContent(e) {
+      //     const outDiv = document.createElement('div');
+      //     outDiv.style.width = '180px';
+      //     outDiv.innerHTML = `
+      // <h4>自定义tooltip</h4>
+      // <ul>
+      //   <li>Label: ${e.item.getModel().name || e.item.getModel().id}</li>
+      // </ul>`;
+      //     return outDiv;
+      //   },
+      //   itemTypes: ['node'],
+      // });
+      this.graph = new G6.Graph({ ...this.config, plugins: [] });
       // 读取数据
       this.graph.read({
         nodes: this.nodes,
-        edges: this.edges.map((edge, i) => ({ ...edge, id: `edge${i}` })),
+        edges: this.edges,
+      });
+      // 鼠标进入节点
+      this.graph.on('node:mouseenter', (e) => {
+        const nodeItem = e.item; // 获取鼠标进入的节点元素对象
+        this.graph.setItemState(nodeItem, 'hover', true); // 设置当前节点的 hover 状态为 true
+      });
+      // 鼠标离开节点
+      this.graph.on('node:mouseleave', (e) => {
+        const nodeItem = e.item; // 获取鼠标离开的节点元素对象
+        this.graph.setItemState(nodeItem, 'hover', false); // 设置当前节点的 hover 状态为 false
+      });
+      this.graph.on('node:click', (e) => {
+        const clickNodes = this.graph.findAllByState('node', 'click');
+        clickNodes.forEach((cn) => {
+          this.graph.setItemState(cn, 'click', false);
+        });
+        const nodeItem = e.item;
+        this.graph.setItemState(nodeItem, 'click', true);
+      });
+      this.graph.on('edge:click', (e) => {
+        const clickEdges = this.graph.findAllByState('edge', 'click');
+        clickEdges.forEach((ce) => {
+          this.graph.setItemState(ce, 'click', false);
+        });
+        const edgeItem = e.item;
+        this.graph.setItemState(edgeItem, 'click', true);
       });
       this.graph.on('node:dragstart', (e) => {
         this.graph.layout();
@@ -122,3 +195,22 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.graph {
+  background-color: #f9f9f9;
+  width: 1200px;
+  height: 1000px;
+  overflow: scroll;
+  margin: auto;
+}
+.g6-tooltip {
+  border: 1px solid #d2d2d2;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #545454;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 8px;
+  box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+}
+</style>

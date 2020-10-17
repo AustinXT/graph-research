@@ -2,7 +2,7 @@
   <div>
     <h1>产业森林</h1>
     <p>
-      说明
+      说明: 产业森林数据来源于<a href="[Michele Coscia | The Product Space](http://www.michelecoscia.com/?page_id=223)">MIT-Harvard collaboration</a>.
     </p>
     <h3>Demos 展示</h3>
     <ul>
@@ -30,7 +30,7 @@
     </ul>
     <transition>
       <keep-alive>
-        <router-view></router-view>
+        <router-view />
       </keep-alive>
     </transition>
   </div>
