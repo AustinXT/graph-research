@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>G6</h1>
+    <p>
+      说明: 根据SITC。
+    </p>
     <div id="mountNode"
       class="graph"></div>
   </div>
@@ -8,8 +11,8 @@
 
 <script>
 import G6 from '@antv/g6';
-import nodes from './nodes';
-import edges from './edges';
+import nodes from './nodes-SITC';
+import edges from './edges-SITC';
 
 export default {
   name: 'G6',
